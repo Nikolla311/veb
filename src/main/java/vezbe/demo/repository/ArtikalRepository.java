@@ -9,6 +9,4 @@ import java.util.Optional;
 @Repository
 public interface ArtikalRepository  extends JpaRepository<Artikal, Long> {
     Optional<Artikal> findByNaziv(String naziv);
-
-    Artikal delete();
 }

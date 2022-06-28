@@ -4,12 +4,16 @@ package vezbe.demo.controller;
 import com.fasterxml.jackson.databind.DatabindContext;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vezbe.demo.dto.*;
 import vezbe.demo.model.*;
 import vezbe.demo.service.*;
 
 import javax.servlet.http.*;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -40,29 +44,48 @@ public class MenadzerRestController {
         }
 
     }
-    @PostMapping("/add-artikal")
-    public  ResponseEntity<ArtikalDto> addNewArtikal(@RequestBody ArtikalDto dto, HttpSession session) {
+    @GetMapping("/api/menadzer/restoran")
+    public ResponseEntity<RestoranDto> getRestoran(HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() != Uloga.MENADZER) {
+            return new ResponseEntity("Samo menadzer moze pogledati svoj restoran", HttpStatus.FORBIDDEN);
+        }
+
+
+        Menadzer menadzer = menadzerService.findOne(loggedKorisnik.getUsername());
+        Restoran restoran = menadzer.getRestoran();
+        RestoranDto restoranDto = new RestoranDto(restoran);
+
+        if (restoran == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(restoranDto);
+    }
+    @PostMapping("/api/menadzer/add-artikal")
+    public  ResponseEntity<ArtikalDto> addNewArtikal(@Valid @RequestBody ArtikalDto dto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
         if (loggedKorisnik == null) {
             return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
         }
         if (loggedKorisnik.getUloga() == Uloga.MENADZER) {
-            if (dto.getNaziv().isEmpty()) {
-                return ResponseEntity.badRequest().build();
-            }
 
             Menadzer menadzer = menadzerService.findOne(loggedKorisnik.getUsername());
-            Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getTip_artikla(), menadzer.getRestoran());
+            //String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            Artikal artikal = new Artikal(dto.getNaziv(), dto.getCena(), dto.getKolicina(), dto.getTip_artikla(), dto.getOpis(), menadzer.getRestoran());
             Artikal savedArtikal = menadzerService.save(artikal);
             if (savedArtikal == null) {
                 return new ResponseEntity(null, HttpStatus.CONFLICT);
             }
-            ArtikalDto artikalDto = new ArtikalDto(savedArtikal.getId(), savedArtikal.getNaziv(), savedArtikal.getCena(), savedArtikal.getTip_artikla());
+            ArtikalDto artikalDto = new ArtikalDto(savedArtikal.getId(), savedArtikal.getNaziv(), savedArtikal.getCena(), savedArtikal.getKolicina(), savedArtikal.getTip_artikla(), savedArtikal.getOpis());
             return new ResponseEntity(artikalDto, HttpStatus.CREATED);
         } else {
             return new ResponseEntity("Samo menadzer moze dodati novi artikal", HttpStatus.FORBIDDEN);
         }
     }
+
 
     /*@PostMapping("/api/menadzer/save-restoran")
     public String saveRestoran(@RequestBody Restoran restoran, HttpSession session) {
@@ -78,19 +101,27 @@ public class MenadzerRestController {
         }
     }*/
 
-    @DeleteMapping("api/delet-artikal")
-    public ResponseEntity<Long> deletArtikal(@RequestBody Long id, HttpSession session){
+    @DeleteMapping("api/menadzer/delete-artikal")
+    public ResponseEntity<Long> deleteArtikal(@RequestBody Long id, HttpSession session){
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
         if(loggedKorisnik == null){
             return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
         }
-        Artikal artikal = menadzerService.findId(id);
-        if(artikal == null){
-            return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
-        }
-        menadzerService.delete(id);
+        if (loggedKorisnik.getUloga() == Uloga.MENADZER) {
+            Artikal artikal = menadzerService.findId(id);
+            if (artikal == null) {
+                return new ResponseEntity("Artikal nije pronadjen", HttpStatus.NOT_FOUND);
+            }
+            menadzerService.delete(id);
 
-        return new ResponseEntity<>(id, HttpStatus.OK);
+            if (menadzerService.findArtikal(id) == null) {
+                return new ResponseEntity(id, HttpStatus.OK);
+            } else {
+                return new ResponseEntity("Artikal nije obrisan", HttpStatus.CONFLICT);
+            }
+        } else {
+            return new ResponseEntity("Samo menadzer moze obrisati artikal", HttpStatus.FORBIDDEN);
+        }
     }
 
 
@@ -110,6 +141,27 @@ public class MenadzerRestController {
             artikal.setNaziv(naziv);
             ArtikalDto artikalDto = new ArtikalDto(artikal);
             return new ResponseEntity(artikalDto, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity("Samo menadzer moze da menja naziv artkla", HttpStatus.FORBIDDEN);
+        }
+
+    }
+
+    @PostMapping("/api/menadzer/update-artikal")
+    public ResponseEntity<ArtikalDto> artikalUpdate(@RequestBody ArtikalUpdateDto dto, HttpSession session){
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if(loggedKorisnik == null){
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() == Uloga.MENADZER) {
+            Artikal artikal = menadzerService.findArtikal(dto.getId());
+            if (artikal != null) {
+                menadzerService.updateArtikal(dto);
+            } else {
+                    return new ResponseEntity("Artikal nije pronadjen", HttpStatus.NOT_FOUND);
+            }
+            ArtikalDto artikalDto = new ArtikalDto(artikal);
+            return new ResponseEntity(artikalDto, HttpStatus.OK);
         } else {
             return new ResponseEntity("Samo menadzer moze da menja naziv artkla", HttpStatus.FORBIDDEN);
         }

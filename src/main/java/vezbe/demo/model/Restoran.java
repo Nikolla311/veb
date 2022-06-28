@@ -19,21 +19,7 @@ public class Restoran implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column
     private Status_restorana status_restorana;
-    //protected ArrayList<Artikal> artikli;
-    //protected ArrayList<Porudzbina> lista_porudzbina;
-    //@Column
-    //protected Lokacija lokacija;
 
-    /*@OneToMany(mappedBy = "restoran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "lokacija_id")
-    private Set<Lokacija> lokacije = new HashSet<>();*/
-
-    /*@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lokacija_id")
-    private Lokacija lokacija;*/
-    /*@ManyToOne
-   // @JoinColumn(name = "restoran_id")
-    protected Menadzer menadzer;*/
 
     @OneToMany(mappedBy = "restoran", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -43,20 +29,14 @@ public class Restoran implements Serializable {
     @JoinColumn(name = "lokacija_id")
     private Lokacija lokacija;
 
-    public Set<Komentar> getKomentari() {
-        return komentari;
-    }
-
-    public void setKomentari(Set<Komentar> komentari) {
-        this.komentari = komentari;
-    }
-    @OneToOne(mappedBy = "restoran", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "restoran", fetch = FetchType.LAZY)
     @JsonIgnore
     protected Menadzer menadzer;
 
-    @OneToMany(mappedBy = "komentar", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restoran", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Komentar> komentari = new HashSet<>();
+
     public Restoran() {
     }
 
@@ -95,10 +75,6 @@ public class Restoran implements Serializable {
     }
 
 
-   /* @OneToMany(mappedBy = "restoran", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Komentar> komentari = new HashSet<>();*/
-
-
     public Set<Porudzbina> getPorudzbine() {
         return porudzbine;
     }
@@ -131,13 +107,6 @@ public class Restoran implements Serializable {
         this.lokacija = lokacija;
     }
 
-    /*public ArrayList<Porudzbina> getLista_porudzbina() {
-        return lista_porudzbina;
-    }*/
-
-    /*public void setLista_porudzbina(ArrayList<Porudzbina> lista_porudzbina) {
-        this.lista_porudzbina = lista_porudzbina;
-    }*/
 
     public String getNazivRestorana() {
         return nazivRestorana;
@@ -155,26 +124,6 @@ public class Restoran implements Serializable {
         this.tipRestorana = tipRestorana;
     }
 
-    /*public ArrayList<Artikal> getArtikli() {
-        return artikli;
-    }*/
-    /*public void DodajArtikal(Artikal artikal) {
-        artikli.add(artikal);
-    }*/
-
-    /*public void setArtikli(ArrayList<Artikal> artikli) {
-        this.artikli = artikli;
-    }*/
-
-    /*public Lokacija getLokacija() {
-        return lokacija;
-    }
-
-
-    public void setLokacija(Lokacija lokacija) {
-        this.lokacija = lokacija;
-    }*/
-
     public Long getId() {
         return id;
     }
@@ -183,11 +132,11 @@ public class Restoran implements Serializable {
         this.id = id;
     }
 
-   /* public Set<Komentar> getKomentari() {
+    public Set<Komentar> getKomentari() {
         return komentari;
     }
 
     public void setKomentari(Set<Komentar> komentari) {
         this.komentari = komentari;
-    }*/
+    }
 }

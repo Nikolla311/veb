@@ -18,7 +18,8 @@ public class KorisnikRestController {
 
     @Autowired
     private KorisnikService korisnikService;
-
+    @Autowired
+    private KupacService kupacService;
     @GetMapping("/api/")
     public String welcome(){
         return "Hello from api!";
@@ -68,10 +69,13 @@ public class KorisnikRestController {
     }
 
 
-    @PostMapping("/api/save-korisnik")
-    public String saveKorisnik(@RequestBody Korisnik korisnik) {
-        this.korisnikService.save(korisnik);
-        return "Successfully saved a Korisnik!";
+    @PostMapping("/api/registracija")
+    public String Registracija(@RequestBody KupacDto kupacDto) {
+        Kupac kupac = new Kupac(kupacDto.getUsername(), kupacDto.getPol(), kupacDto.getLozinka(), kupacDto.getIme(), kupacDto.getPrezime(), kupacDto.getDatum_rodjenja());
+
+
+        this.kupacService.saveKupac(kupac);
+        return "Registracija uspesna";
     }
 
 

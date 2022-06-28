@@ -155,9 +155,10 @@ public class DatabaseConfiguration {
         Komentar komentar2 = new Komentar(kupac2, restoran2, "super", 5);
         Komentar komentar3 = new Komentar(kupac3, restoran1, "ukusna hrana!", 5);
         Komentar komentar4 = new Komentar(kupac1, restoran1, "savrseno", 5);
+        Komentar komentar5 = new Komentar(kupac2, restoran1, "okej!", 4);
 
 
-        komentarRepository.saveAll(List.of(komentar1, komentar2, komentar3, komentar4));
+        komentarRepository.saveAll(List.of(komentar1, komentar2, komentar3, komentar4, komentar5));
 
         /*Department department1 = new Department("first department");
         Department department2 = new Department("second department");

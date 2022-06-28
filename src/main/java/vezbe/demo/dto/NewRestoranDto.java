@@ -10,7 +10,6 @@ public class NewRestoranDto {
 
     private String tipRestorana;
 
-    //private Status_restorana status_restorana;
 
     private Lokacija lokacija;
 

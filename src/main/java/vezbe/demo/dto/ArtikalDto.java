@@ -2,25 +2,30 @@ package vezbe.demo.dto;
 
 import vezbe.demo.model.*;
 
-import javax.persistence.*;
+import javax.persistence.Lob;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class ArtikalDto {
     private Long id;
-
+    @NotEmpty
     protected String naziv;
+    @NotNull
     protected double cena;
-
+    @NotNull
     protected Tip_artikla tip_artikla;
 
     protected double kolicina;
     protected String opis;
     //protected Restoran restoran;
 
+    //private String photos;
+
     public ArtikalDto() {
 
     }
 
-    public ArtikalDto(Long id, String naziv, double cena, Tip_artikla tip_artikla, double kolicina, String opis) {
+    public ArtikalDto(Long id, String naziv, double cena, double kolicina, Tip_artikla tip_artikla, String opis) {
         this.id = id;
         this.naziv = naziv;
         this.cena = cena;
@@ -40,8 +45,10 @@ public class ArtikalDto {
         this.id = artikal.getId();
         this.naziv = artikal.getNaziv();
         this.cena = artikal.getCena();
+        this.kolicina = artikal.getKolicina();
         this.tip_artikla = artikal.getTip_artikla();
         this.opis = artikal.getOpis();
+        //this.photos = artikal.getPhotos();
         //this.restoran = artikal.getRestoran();
     }
 
@@ -93,4 +100,12 @@ public class ArtikalDto {
     public void setOpis(String opis) {
         this.opis = opis;
     }
+
+   /* public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }*/
 }

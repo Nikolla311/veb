@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface KupacRepository  extends JpaRepository<Kupac, Long> {
-    Optional<Kupac> findByID(Long id);
 
 }
