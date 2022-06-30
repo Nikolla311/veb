@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3e9d0842-0758-4479-b8d7-b435aa066b7b" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/model/Lokacija.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/application.properties" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/model/Tip_artikla.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/model/Menadzer.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/DemoApplication.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/model/Artikal.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/model/Restoran.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/model/Dostavljac.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/vezbe/demo/configuration/DatabaseConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="28KbctKH2p7qj4eyRQle25Zj6VX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../demo - Copy (2)" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="consents" />
+  </component>
+  <component name="RunManager" selected="JUnit.All in demo - Copy (3)">
+    <configuration name="All in demo - Copy (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo - Copy (3)" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="vezbe.demo.DemoApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in demo - Copy (3)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3e9d0842-0758-4479-b8d7-b435aa066b7b" name="Changes" comment="" />
+      <created>1650968372828</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650968372828</updated>
+      <workItem from="1650968383356" duration="280000" />
+      <workItem from="1650970191613" duration="9599000" />
+      <workItem from="1651006387873" duration="983000" />
+      <workItem from="1651164770183" duration="7269000" />
+      <workItem from="1651342466988" duration="1737000" />
+      <workItem from="1651427546222" duration="6947000" />
+      <workItem from="1651482100834" duration="774000" />
+      <workItem from="1651484403324" duration="2237000" />
+      <workItem from="1651489122676" duration="9359000" />
+      <workItem from="1651571976967" duration="5659000" />
+      <workItem from="1651578783628" duration="2245000" />
+      <workItem from="1651582454250" duration="6492000" />
+      <workItem from="1651603424381" duration="5619000" />
+      <workItem from="1651843541060" duration="12063000" />
+      <workItem from="1652545240837" duration="2617000" />
+      <workItem from="1652631464717" duration="5084000" />
+      <workItem from="1652697354169" duration="1502000" />
+      <workItem from="1652700098821" duration="6437000" />
+      <workItem from="1652707333504" duration="3556000" />
+      <workItem from="1652735558412" duration="1788000" />
+      <workItem from="1652777702235" duration="7644000" />
+      <workItem from="1652876109319" duration="577000" />
+      <workItem from="1652877386061" duration="7626000" />
+      <workItem from="1652907732680" duration="18000" />
+      <workItem from="1652954154794" duration="715000" />
+      <workItem from="1652991469391" duration="1867000" />
+      <workItem from="1653210418634" duration="7996000" />
+      <workItem from="1653231216868" duration="8882000" />
+      <workItem from="1653307468779" duration="4896000" />
+      <workItem from="1653377815316" duration="15880000" />
+      <workItem from="1653400836030" duration="3974000" />
+      <workItem from="1653419138396" duration="10699000" />
+      <workItem from="1653465386063" duration="1879000" />
+      <workItem from="1653469463277" duration="19020000" />
+      <workItem from="1653507064098" duration="8856000" />
+      <workItem from="1653550264788" duration="22841000" />
+      <workItem from="1653583549040" duration="3565000" />
+      <workItem from="1653588233785" duration="471000" />
+      <workItem from="1653589497995" duration="7685000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
