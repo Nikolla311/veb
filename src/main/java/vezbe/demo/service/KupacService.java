@@ -14,10 +14,10 @@ public class KupacService {
     public Kupac findKupac(Korisnik korisni){
         Kupac kupac = kupacRepository.findByKorisnicko(korisni.getKorisnicko());
         return kupac;
-    }
+    }*/
 
-    public void saveKupc(Kupac kupac){
+    public void saveKupac(Kupac kupac){
         kupacRepository.save(kupac);
     }
-     */
+
 }

@@ -28,6 +28,9 @@ public class Artikal implements Serializable {
     @Column
     protected String opis;
 
+    /*@JsonIgnore
+    protected String photos;*/
+
     public Set<ArtikalPorudzbina> getArtikalporudzbina() {
         return artikalporudzbina;
     }
@@ -56,12 +59,16 @@ public class Artikal implements Serializable {
         this.kolicina = kolicina;
         this.opis = opis;
         this.restoran = restoran;
+        //this.photos = photos;
     }
-    public Artikal(String naziv, double cena, Tip_artikla tip_artikla, Restoran restoran) {
+    public Artikal(String naziv, double cena, double kolicina, Tip_artikla tip_artikla, String opis, Restoran restoran) {
         this.naziv = naziv;
         this.cena = cena;
+        this.kolicina = kolicina;
         this.tip_artikla = tip_artikla;
         this.restoran = restoran;
+        this.opis = opis;
+        //this.photos = photos;
     }
 
 
@@ -120,4 +127,12 @@ public class Artikal implements Serializable {
     public void setRestoran(Restoran restoran) {
         this.restoran = restoran;
     }
+
+   /* public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }*/
 }

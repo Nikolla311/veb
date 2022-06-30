@@ -4,7 +4,7 @@ import vezbe.demo.model.*;
 
 import java.util.*;
 
-public class MenadzerDto {
+public class KupacDto {
 
     protected String username;
     protected String lozinka;
@@ -12,34 +12,25 @@ public class MenadzerDto {
     protected String prezime;
     protected Pol pol;
     protected Date datum_rodjenja;
-    protected Uloga uloga;
-    protected Restoran restoran;
 
-    public MenadzerDto() {
+    public KupacDto() {
     }
-    public MenadzerDto(Menadzer menadzer) {
-        this.username = menadzer.getUsername();
-        this.lozinka = menadzer.getLozinka();
-        this.ime = menadzer.getIme();
-        this.prezime = menadzer.getPrezime();
-        this.pol = menadzer.getPol();
-        this.datum_rodjenja = menadzer.getDatum_rodjenja();
-        this.uloga = menadzer.getUloga();
-        this.restoran = menadzer.getRestoran();
-       
+    public KupacDto(Kupac kupac) {
+        this.username = kupac.getUsername();
+        this.lozinka = kupac.getLozinka();
+        this.ime = kupac.getIme();
+        this.prezime = kupac.getPrezime();
+        this.pol = kupac.getPol();
+        this.datum_rodjenja = kupac.getDatum_rodjenja();
     }
 
-
-
-    public MenadzerDto(String username, String lozinka, String ime, String prezime, Pol pol, Date datum_rodjenja) {
+    public KupacDto(String username, String lozinka, String ime, String prezime, Pol pol, Date datum_rodjenja) {
         this.username = username;
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
         this.pol = pol;
         this.datum_rodjenja = datum_rodjenja;
-        this.uloga = Uloga.MENADZER;
-        this.restoran = null;
     }
 
 
@@ -91,18 +82,4 @@ public class MenadzerDto {
         this.datum_rodjenja = datum_rodjenja;
     }
 
-    public Uloga getUloga() {
-        return uloga;
-    }
-
-    public void setUloga(Uloga uloga) {
-        this.uloga = uloga;
-    }
-    public Restoran getRestoran() {
-        return restoran;
-    }
-
-    public void setRestoran(Restoran restoran) {
-        this.restoran = restoran;
-    }
 }

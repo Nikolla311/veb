@@ -16,7 +16,7 @@ public class Menadzer extends Korisnik implements Serializable {
     @JsonIgnore
     private Set<Restoran> restorani_menadzera = new HashSet<>();*/
    // @Autowired
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restoran_id")
     protected Restoran restoran;
 

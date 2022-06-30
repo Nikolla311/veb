@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/api/menadzer")
 public class AdminRestController {
 
     @Autowired
@@ -50,7 +49,7 @@ public class AdminRestController {
     }
 
 
-    @PostMapping("/api/admin/save-menadzer")
+    /*@PostMapping("/api/admin/save-menadzer")
     public String saveMenadzer(@RequestBody Menadzer menadzer, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
         if (loggedKorisnik == null) {
@@ -62,8 +61,8 @@ public class AdminRestController {
         } else {
             return "Samo admin moze dodati novog menadzera";
         }
-    }
-    @PostMapping("/api/admin/save-dostavljac")
+    }*/
+   /* @PostMapping("/api/admin/save-dostavljac")
     public String saveDostavljac(@RequestBody Dostavljac dostavljac, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
         if (loggedKorisnik == null) {
@@ -75,7 +74,7 @@ public class AdminRestController {
         } else {
             return "Samo admin moze dodati novog dostavljaca";
         }
-    }
+    }*/
     @PostMapping("/api/admin/add-menadzer")
     public  ResponseEntity<MenadzerDto> addNewMenadzer(@RequestBody MenadzerDto dto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -120,30 +119,136 @@ public class AdminRestController {
             return new ResponseEntity("Samo admin moze dodati novog dostavljaca", HttpStatus.FORBIDDEN);
         }
     }
-    @PostMapping("/api/admin/set-menadzer-restoran")
-    public  ResponseEntity<MenadzerDto> setRestoran(@RequestBody MenadzerRestoranDto dto, HttpSession session) {
+    @PostMapping("/api/admin/add-restoran")
+    public  ResponseEntity<RestoranDto> addNewRestoran(@RequestBody NewRestoranDto dto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
         if (loggedKorisnik == null) {
             return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
         }
-        Restoran restoran = adminService.findRestoran(dto.getIdRestoran());
         if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
-            if (restoran == null) {
+            if (dto.getNazivRestorana().isEmpty() || dto.getTipRestorana().isEmpty() || dto.getLokacija() == null) {
                 return ResponseEntity.badRequest().build();
             }
 
+            Restoran restoran = new Restoran(dto.getNazivRestorana(), dto.getTipRestorana(), dto.getLokacija());
+            Restoran savedRestoran = adminService.saveRestoran(restoran);
+            if (savedRestoran == null) {
+                return new ResponseEntity(null, HttpStatus.CONFLICT);
+            }
+            RestoranDto restoranDto = new RestoranDto(savedRestoran.getId(), savedRestoran.getNazivRestorana(), savedRestoran.getTipRestorana(), savedRestoran.getLokacija());
+            return new ResponseEntity(restoranDto, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity("Samo admin moze dodati novi restoran", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /*@PatchMapping("/api/admin/set-menadzer-restoran1")
+    public ResponseEntity<?> partialUpdateName(@RequestBody MenadzerRestoranDto dto, HttpSession) {
+
+        adminService.saveUpdate(dto.getIdMenadzer(), dto.getIdRestoran());
+
+        return ResponseEntity.ok("resource address updated");
+    }*/
+    @PatchMapping("/api/admin/set-menadzer-restoran")
+    public  ResponseEntity<String> setRestoran(@RequestBody MenadzerRestoranDto dto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
+            Restoran restoran = adminService.findRestoran(dto.getIdRestoran());
             Menadzer menadzer = adminService.findMenadzer(dto.getIdMenadzer());
-            if (menadzer == null) {
+
+            if (restoran == null || menadzer == null) {
                 return ResponseEntity.badRequest().build();
             }
-            menadzer.setRestoran(restoran);
+            //adminService.saveUpdate(dto);
+            if (adminService.updateMenadzerRestoran(dto)) {
+                //menadzer.setRestoran(restoran);
+                //adminService.save(menadzer);
+                //MenadzerDto menadzerDto = new MenadzerDto(menadzer);
 
-            MenadzerDto menadzerDto = new MenadzerDto(menadzer);
-            return new ResponseEntity(menadzerDto, HttpStatus.CREATED);
+                return new ResponseEntity("Uspesno odabran restoran za menadzera", HttpStatus.OK);
+            } else {
+                return new ResponseEntity("Uneti restoran vec ima menadzera", HttpStatus.CONFLICT);
+            }
         } else {
             return new ResponseEntity("Samo admin moze dodeliti restoran menadzeru", HttpStatus.FORBIDDEN);
         }
     }
+    @PatchMapping("/api/admin/set-ime")
+    public  ResponseEntity<String> setIme(@RequestBody String ime, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
+
+            adminService.saveUpdateIme(loggedKorisnik.getId(), ime);
+            //loggedKorisnik.setIme(ime);
+            //menadzer.setRestoran(restoran);
+            //adminService.save(admin);
+            //MenadzerDto menadzerDto = new MenadzerDto(menadzer);
+            return new ResponseEntity("Uspesno promenjeno ime", HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Samo admin moze dodeliti restoran menadzeru", HttpStatus.FORBIDDEN);
+        }
+    }
+    @PatchMapping("/api/admin/set/restoran/ime")
+    public  ResponseEntity<String> updateRestoranIme(@RequestBody RestoranImeDto dto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
+
+            adminService.saveUpdateRestoranIme(dto.getIdRestoran(), dto.getNaziv());
+            //loggedKorisnik.setIme(ime);
+            //menadzer.setRestoran(restoran);
+            //adminService.save(admin);
+            //MenadzerDto menadzerDto = new MenadzerDto(menadzer);
+            return new ResponseEntity("Uspesno promenjeno ime restorana", HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Samo admin moze dodeliti restoran menadzeru", HttpStatus.FORBIDDEN);
+        }
+    }
+    @PatchMapping("/api/admin/set/restoran/tip")
+    public  ResponseEntity<String> updateRestoranTip(@RequestBody RestoranTipDto dto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
+
+            adminService.saveUpdateRestoranTip(dto.getIdRestoran(), dto.getTip());
+            //loggedKorisnik.setIme(ime);
+            //menadzer.setRestoran(restoran);
+            //adminService.save(admin);
+            //MenadzerDto menadzerDto = new MenadzerDto(menadzer);
+            return new ResponseEntity("Uspesno promenjen tip restorana", HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Samo admin moze dodeliti restoran menadzeru", HttpStatus.FORBIDDEN);
+        }
+    }
+    @PatchMapping("/api/admin/set/restoran/lokacija")
+    public  ResponseEntity<String> updateRestoranLokacija(@RequestBody RestoranLokacijaDto dto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
+        }
+        if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
+
+            adminService.saveUpdateRestoranLokacija(dto.getIdRestoran(), dto.getAdresa());
+            //loggedKorisnik.setIme(ime);
+            //menadzer.setRestoran(restoran);
+            //adminService.save(admin);
+            //MenadzerDto menadzerDto = new MenadzerDto(menadzer);
+            return new ResponseEntity("Uspesno promenjena adresa restorana", HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Samo admin moze dodeliti restoran menadzeru", HttpStatus.FORBIDDEN);
+        }
+    }
+
 /*
     @PostMapping("/api/admin/save-dostavljac")
     public String saveDostavljac(@RequestBody Dostavljac dostavljac, HttpSession session) {

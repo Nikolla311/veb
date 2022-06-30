@@ -21,20 +21,20 @@ public class RestoranRestController {
     //private final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     @GetMapping("/all")
-    public ResponseEntity<List<RestoranDto>> getRestorani(HttpSession session){
+    public ResponseEntity<List<NewRestoranDto>> getRestorani(HttpSession session){
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
         List<Restoran> restorani;
         if(loggedKorisnik == null)
-            restorani = restoranService.findAll();
+            return new ResponseEntity("Nema sesije", HttpStatus.FORBIDDEN);
         else
             restorani = restoranService.findAll();
 
-        List<RestoranDto> restoranDtos = new ArrayList<>();
+        List<NewRestoranDto> restoranDtos = new ArrayList<>();
         //Set<Artikal> artikli = new HashSet<>();
         //Set<ArtikalDto> artikliDto = new HashSet<>();
         for (Restoran restoran: restorani) {
 
-            RestoranDto dto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija());
+            NewRestoranDto dto = new NewRestoranDto(restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija());
             restoranDtos.add(dto);
         }
 
@@ -53,7 +53,7 @@ public class RestoranRestController {
         //Set<ArtikalDto> artikliDto = new HashSet<>();
         for (Restoran restoran: restorani) {
 
-            RestoranDto dto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija(), restoran.getArtikli());
+            RestoranDto dto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija(), restoran.getArtikli(), restoran.getKomentari());
             restoranDtos.add(dto);
         }
         return ResponseEntity.ok(restoranDtos);
@@ -71,7 +71,7 @@ public class RestoranRestController {
         //Set<ArtikalDto> artikliDto = new HashSet<>();
         for (Restoran restoran: restorani) {
 
-            RestoranDto dto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija(), restoran.getArtikli());
+            RestoranDto dto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija(), restoran.getArtikli(), restoran.getKomentari());
             restoranDtos.add(dto);
         }
 
@@ -93,7 +93,7 @@ public class RestoranRestController {
         //Set<ArtikalDto> artikliDto = new HashSet<>();
         for (Restoran restoran: restorani) {
             
-                RestoranDto restoranDto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija(), restoran.getArtikli());
+                RestoranDto restoranDto = new RestoranDto(restoran.getId(), restoran.getNazivRestorana(), restoran.getTipRestorana(), restoran.getLokacija(), restoran.getArtikli(), restoran.getKomentari());
                 restoranDtos.add(restoranDto);
             //}
         }
@@ -115,28 +115,7 @@ public class RestoranRestController {
         return "Successfully saved a Restoran!";
     }*/
 
-    @PostMapping("/add-restoran")
-    public  ResponseEntity<RestoranDto> addNewRestoran(@RequestBody NewRestoranDto dto, HttpSession session) {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
-        if (loggedKorisnik == null) {
-            return new ResponseEntity("Nema sesije", HttpStatus.NOT_FOUND);
-        }
-        if (loggedKorisnik.getUloga() == Uloga.ADMIN) {
-            if (dto.getNazivRestorana().isEmpty() || dto.getTipRestorana().isEmpty() || dto.getLokacija() == null) {
-                return ResponseEntity.badRequest().build();
-            }
 
-            Restoran restoran = new Restoran(dto.getNazivRestorana(), dto.getTipRestorana(), dto.getLokacija());
-            Restoran savedRestoran = restoranService.save(restoran);
-            if (savedRestoran == null) {
-                return new ResponseEntity(null, HttpStatus.CONFLICT);
-            }
-            RestoranDto restoranDto = new RestoranDto(savedRestoran.getId(), savedRestoran.getNazivRestorana(), savedRestoran.getTipRestorana(), savedRestoran.getLokacija());
-            return new ResponseEntity(restoranDto, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity("Samo admin moze dodati novi restoran", HttpStatus.FORBIDDEN);
-        }
-    }
 
     /*@PostMapping("/save-restoran")
     public  ResponseEntity<RestoranDto> addNewRestoran(@RequestBody NewRestoranDto dto) {
